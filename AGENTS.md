@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep website generation in a server function and render its self-contained HTML in a sandboxed iframe; this separates untrusted generated code from the editor.
+- Keep browser-local website drafts as the workspace's initial persistence layer; no account is required to start creating.
