@@ -7,12 +7,12 @@ const inputSchema = z.object({
 })
 
 export const generateWebsite = createServerFn({ method: 'POST' })
-  .inputValidator((input) => inputSchema.parse(input))
+  .validator((input) => inputSchema.parse(input))
   .handler(async ({ data }) => {
     const key = process.env['LOVABLE_API_KEY']
     if (!key) throw new Error('AI generation is not configured yet.')
 
-    const system = `You are an expert web designer and frontend engineer. Create a COMPLETE, visually excellent, responsive website as ONE self-contained HTML document. Return ONLY HTML beginning with <!DOCTYPE html>; no markdown or explanations. Include CSS in <style> and JavaScript in <script> in the document. The result will run inside a sandboxed iframe. Do not use external libraries, CDNs, external images, iframes, remote fonts, or API calls. Use tasteful CSS illustration, gradients, patterns and typographic composition when visual media is needed. Build a REAL website, not a mobile app: desktop navigation, sections and layouts, responsive tablet/mobile breakpoints, semantic HTML and accessible labels. Make all visible interactions work locally: navigation anchors, menus, tabs, filters, forms with visible feedback, accordions, calculators, carts or other features appropriate to the request. No fake checkout/payment, login, database or server features. Never claim a form sends email. If a user asks for a change and previous HTML is provided, preserve its overall identity and existing useful behavior while applying the requested change. Keep it concise enough to render quickly (under 35,000 characters). Do not include surrounding commentary.`
+    const system = `You are an expert web designer and frontend engineer. Create a COMPLETE visually excellent responsive website as ONE self-contained HTML document. Return ONLY HTML beginning with <!DOCTYPE html> and ending with </html>; no markdown or explanations. Include CSS in <style> and JavaScript in <script> in the document. IMPORTANT: use compact minified code, max 10,000 characters total. No Tailwind class names, no external libraries, CDNs, external images, iframes, remote fonts, or API calls. Use CSS illustration, gradients, patterns and typography for visual interest. Build a REAL website, not a mobile app: desktop navigation, sections, responsive tablet/mobile breakpoints, semantic HTML and accessible labels. Make visible interactions work locally: navigation anchors, menus, tabs, filters, forms with visible feedback, accordions, calculators, carts or other features appropriate to the request. No fake checkout/payment, login, database or server features. Never claim a form sends email. If a user asks for a change and previous HTML is provided, preserve its overall identity and existing useful behavior while applying the requested change. Limit to 3-5 meaningful sections. Do not include surrounding commentary. Finish the </html> tag before exhausting output tokens.`
     const user = data.previousHtml
       ? `Requested change: ${data.prompt}\n\nExisting website HTML to improve:\n${data.previousHtml.slice(0, 90000)}`
       : `Build this website: ${data.prompt}`
@@ -23,7 +23,7 @@ export const generateWebsite = createServerFn({ method: 'POST' })
       body: JSON.stringify({
         model: 'google/gemini-3.8-flash',
         messages: [{ role: 'system', content: system }, { role: 'user', content: user }],
-        max_tokens: 12000,
+        max_tokens: 16000,
       }),
     })
     if (!response.ok) {
