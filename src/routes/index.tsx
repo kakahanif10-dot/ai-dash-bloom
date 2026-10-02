@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useServerFn } from '@tanstack/react-start'
-import { ArrowDown, ArrowLeft, ArrowRight, Check, ChevronDown, Code2, ExternalLink, Eye, Globe2, LayoutTemplate, LoaderCircle, Monitor, MoreHorizontal, PanelLeftClose, PanelLeftOpen, Plus, RotateCcw, Send, Smartphone, Sparkles, Tablet, Trash2, WandSparkles, X } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Check, ChevronDown, Code2, ExternalLink, Eye, Globe2, LayoutTemplate, LoaderCircle, Monitor, MoreHorizontal, PanelLeftClose, PanelLeftOpen, Plus, RotateCcw, Smartphone, Sparkles, Tablet, Trash2, WandSparkles, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { generateWebsite } from '@/lib/generate.functions'
 import atelierImage from '@/assets/atelier-interior.jpg'
